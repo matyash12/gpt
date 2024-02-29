@@ -13,15 +13,11 @@ function qwe() {
         return
     fi
 
-    # Set the input text from the command-line argument
+    # Set variables
     input_text="$1"
-
-    # Info about the PC
     pc_info=$(uname -s)
     model_name="gpt-3.5-turbo"
     max_tokens="255"
-
-    # OpenAI API endpoint (adjust the URL based on the API version you're using)
     api_url="https://api.openai.com/v1/chat/completions"
 
     # Make the API request using curl
@@ -41,20 +37,23 @@ function qwe() {
         }'
     )
     # Extract and print the generated text from the response
-    content=$(echo $response | jq -r '.choices[0].message.content')
+    command_to_run=$(echo $response | jq -r '.choices[0].message.content')
 
-    if [[ "$content" == "null" ]]; then
+    #Check if the command is not empty
+    if [[ "$command_to_run" == "null" ]]; then
         echo "Request to openai failed"
         return
     fi
 
-    echo "$content"
+    #Show user the command
+    echo "$command_to_run"
 
-    # Prompt user for input
+    # Ask user if he wants to run command
     printf 'Run this command (y/n)? '
     read answer
 
-    if [ "$answer" != "${answer#[Yy]}" ] ;then 
+    # Run command if he says "y"
+    if [ "$answer" != "${answer#[Yy]}" ]; then
         eval $content
     fi
 }
