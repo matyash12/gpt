@@ -17,7 +17,9 @@ function qwe() {
     input_text="$1"
 
     # Info about the PC
-    pc_info="its mac os"
+    pc_info=$(uname -s)
+    model_name="gpt-3.5-turbo"
+    max_tokens="255"
 
     # OpenAI API endpoint (adjust the URL based on the API version you're using)
     api_url="https://api.openai.com/v1/chat/completions"
@@ -28,19 +30,20 @@ function qwe() {
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $OPENAI_API_KEY" \
             -d '{
- "messages": [
- {
- "role": "user",
- "content": "answer only with the command. This is what the command should do: '"$input_text"'. Info about the pc: '"$pc_info"'"
- }
- ],
- "model": "gpt-3.5-turbo",
- "max_tokens": 255
- }'
+        "messages": [
+            {
+            "role": "user",
+            "content": "answer only with the command. This is what the command should do: '"$input_text"'. Info about the pc: '"$pc_info"'"
+            }
+        ],
+            "model": "'"$model_name"'",
+            "max_tokens": '$max_tokens'
+        }'
     )
-
     # Extract and print the generated text from the response
     content=$(echo $response | jq -r '.choices[0].message.content')
+
+
 
     echo "$content"
 
@@ -50,9 +53,5 @@ function qwe() {
 
     if [ "$answer" != "${answer#[Yy]}" ] ;then 
         eval $content
-    else
-        echo "Bye"
     fi
-
-    
 }
