@@ -43,7 +43,10 @@ function qwe() {
     # Extract and print the generated text from the response
     content=$(echo $response | jq -r '.choices[0].message.content')
 
-
+    if [[ "$content" == "null" ]]; then
+        echo "Request to openai failed"
+        return
+    fi
 
     echo "$content"
 
