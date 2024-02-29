@@ -22,7 +22,7 @@ function qwe() {
 
     Examples:
       qwe -t 200 -m 'text-davinci-002'
-      qwe --debug --pc_info 'My Custom PC Info'
+      qwe --verbose --pc_info 'My Custom PC Info and verbose mode'
     "
 
 
