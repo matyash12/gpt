@@ -157,6 +157,6 @@ function qwe() {
 
     # Run command if he says "y"
     if [ "$answer" != "${answer#[Yy]}" ]; then
-        eval $content
+        eval $command_to_run
     fi
 }
