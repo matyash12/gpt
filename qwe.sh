@@ -185,3 +185,5 @@ function qwe() {
         eval $command_to_run
     fi
 }
+
+qwe "$@"
