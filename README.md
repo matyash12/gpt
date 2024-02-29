@@ -1,4 +1,10 @@
 # qwe
+Make chatgpt work in terminal.
+
+## Example
+Task: I need to find three largest files in folder.
+Terminal: qwe "I need to find three largest files in folder."
+Output: The three largest files.
 
 ## How to install?
 `brew install matyash12/personaltap/qwe`
