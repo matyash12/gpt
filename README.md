@@ -6,6 +6,8 @@ Make chatgpt work in terminal.
 * Terminal: `qwe "I need to find three largest files in folder."`
 * Output: The three largest files.
 
+https://github.com/matyash12/qwe/assets/93146910/21912a14-709d-49bb-87a6-f48173a0fdb4
+
 ## How to install?
 1. `brew install matyash12/personaltap/qwe`
 2. `qwe -sk <YOUR OPENAI API KEY>`
