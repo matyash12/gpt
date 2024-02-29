@@ -8,7 +8,7 @@ function qwe() {
     max_tokens="255"
     api_url="https://api.openai.com/v1/chat/completions"
     help_string="
-    Usage: qwe [OPTIONS]
+    Usage: qwe [OPTIONS] 'What do you want to do'
 
     This command interacts with the OpenAI API.
 
@@ -19,6 +19,8 @@ function qwe() {
       -m, --model MODEL         Set the model for the API request (default: 'gpt-3.5-turbo')
       -p, --pc_info PC_INFO     Set the PC info (default: output of 'uname -s')
       -s, --skip                For debugging. Won't connect to API
+      -sk, --set_key API_KEY    Save OpenAI key for future use in ~/.bash_profile
+      -k, -key API_KEY          Set OpenAI key only for this command
 
     Examples:
       qwe -t 200 -m 'text-davinci-002'
@@ -76,6 +78,26 @@ function qwe() {
                 connect_to_api=0
                 shift
                 ;;
+            -sk|--set_key)
+                if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+                    echo "export OPENAI_API_KEY=\"$2\"" >> ~/.bash_profile
+                    source ~/.bash_profile
+                    echo "OpenAI key saved."
+                    shift 2
+                else
+                    echo "Error: Argument for $1 is missing" >&2
+                    return
+                fi
+                ;;
+            -k|--key)
+                if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+                    OPENAI_API_KEY=$2
+                    shift 2
+                else
+                    echo "Error: Argument for $1 is missing" >&2
+                    return
+                fi
+                ;;
             -*|--*=) # unsupported flags
                 echo "Error: Unsupported flag $1" >&2
                 return
@@ -93,8 +115,11 @@ function qwe() {
 
     # Check if the API key is set
     if [ -z "$OPENAI_API_KEY" ]; then
-        echo "Error: OPENAI_API_KEY is not set. Please set your OpenAI API key."
-        return
+        source ~/.bash_profile
+        if [ -z "$OPENAI_API_KEY" ]; then
+            echo "Error: OPENAI_API_KEY is not set. Please set your OpenAI API key."
+            return
+        fi
     fi
 
     # Check if input is provided as a command-line argument
